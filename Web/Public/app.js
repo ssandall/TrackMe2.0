@@ -15,30 +15,30 @@ const API_URL = 'http://127.0.0.1:5000/api';
 //     console.error(`Error: ${error}`);
 // });
 
-const currentUser = localStorage.getItem('user');
+// const currentUser = localStorage.getItem('user');
 
-if (currentUser) {
-    $.get(`${API_URL}/users/${currentUser}/devices`)
-    .then(response => {
-        response.forEach((device) => {
-            $('#devices tbody').append(`
-                <tr data-device-id=${device._id}>
-                <td>${device.user}</td>
-                <td>${device.name}</td>
-                </tr>`
-            );
-        });
-    })
-    .catch(error => {
-        console.error(`Error: ${error}`);
-    });
-} 
-else {
-    const path = window.location.pathname;
-    if (path !== '/login') {
-        location.href = '/login';
-    }
-}
+// if (currentUser) {
+//     $.get(`${API_URL}/users/${currentUser}/devices`)
+//     .then(response => {
+//         response.forEach((device) => {
+//             $('#devices tbody').append(`
+//                 <tr data-device-id=${device._id}>
+//                 <td>${device.user}</td>
+//                 <td>${device.name}</td>
+//                 </tr>`
+//             );
+//         });
+//     })
+//     .catch(error => {
+//         console.error(`Error: ${error}`);
+//     });
+// } 
+// else {
+//     const path = window.location.pathname;
+//     if (path !== '/login') {
+//         location.href = '/login';
+//     }
+// }
 
 $('#devices tbody tr').on('click', (e) => {
  const deviceId = e.currentTarget.getAttribute('data-device-id');
@@ -68,21 +68,22 @@ $('#add-device').on('click', () => {
         }); 
 });
 
+//LOGIN CLICK HANDLER. Error somewhere here but cannot understand why. 
+
 $('#login').on('click', () => {
     const user = $('#user').val();
     const passwordInput = $('#password').val();
-    $.post(`${API_URL}/authenticate`, {user, passwordInput})
+    $.post(`${API_URL}/authenticate`, { user, passwordInput })
     .then((response) =>{
-    if (response.success) {
-    localStorage.setItem('user', user);
-    localStorage.setItem('isAdmin', response.isAdmin);
-    localStorage.setItem('isAuthenticated',true);
-    location.href = '/';
-    } 
-    else {
-    $('#message').append(`<p class="alert alert-danger">${response}
-   </p>`);
-    }
+        if (response.success) {
+        localStorage.setItem('user', user);
+        localStorage.setItem('isAdmin', response.isAdmin);
+        localStorage.setItem('isAuthenticated',true);
+        location.href = '/';
+        } 
+        else {
+        $('#message').append(`<p class="alert alert-danger">${response}</p>`);
+        }
     });
    });
 

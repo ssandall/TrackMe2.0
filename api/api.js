@@ -9,6 +9,7 @@ const User = require('./models/user');
 mongoose.connect(process.env.MONGO_URL);
 
 app.use(bodyParser.json());
+app.use(express.json());
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -23,55 +24,61 @@ app.post('/api/send-command',(req, res) => {
 });
 
 //POST Endpoint for api/authenticate
-// app.post('/api/authenticate', (req, res) => {
-//   const {user, passwordInput} = req.body;
-//   User.findOne({name: user}, function(err, found) {
-//       if (err){
-//           console.log('Not Sending err')
-//           return res.send(err);
-//       }
-//       if (found.password !== passwordInput){
-//         return res.send("Incorrect Password")
-//       }
-//       if (!found){
-//           console.log('Req body stuff:')
-//           console.log(req.body)
-//           return res.send("User doesnt exist")
-//       }
-//       else {
-//           return res.json({
-//               success: true,
-//               message: 'Authenticated successfully',
-//               isAdmin: found.isAdmin
-//              });
-//       }
-//   }
-//   )})
+app.post('/api/authenticate', (req, res) => {
+  const {user, passwordInput} = req.body;
+  User.findOne({name: user}, function(err, found) {
+      if (err){
+          console.log('Not Sending err')
+          return res.send(err);
+      }
+      if (found.password !== passwordInput){
+        return res.send("Incorrect Password")
+      }
+      if (!found){
+          console.log('Req body stuff:')
+          console.log(req.body)
+          return res.send("User doesnt exist")
+      }
+      else {
+          return res.json({
+              success: true,
+              message: 'Authenticated successfully',
+              isAdmin: found.isAdmin
+             });
+      }
+  }
+  )})
 
-  app.post('/api/authenticate', (req, res) => {
-    const {user, passwordInput} = req.body;
-    User.findOne({name: user}, function(err, found) {
-        if (err){
-            console.log('Err result');
-            return res.send(err);
-        }
-        if (!found){
-            console.log('!Found result');
-            return res.send("User doesnt exist")
-        }
-        if (found.password !== passwordInput){
-            console.log('Incorrect password result');
-            return res.send("Incorrect Password")
-        }
-        else {
-            return res.json({
-                success: true,
-                message: 'Authenticated successfully',
-                isAdmin: found.isAdmin
-               });
-        }
-    }
-    )})
+  // app.post('/api/authenticate', (req, res) => {
+  //   const { user, passwordInput } = req.body;
+  //   console.log('REQ.BODY:');
+  //   console.log(req.body);
+  //   console.log('deets:');
+  //   console.log(user);
+  //   console.log(passwordInput);
+  //   User.findOne({name: user}, function(err, found) {
+  //       if (err){
+  //           console.log('Err result');
+  //           return res.send(err);
+  //       }
+  //       if (!found){
+  //           console.log('!Found result');
+  //           return res.send("User doesnt exist")
+  //       }
+  //       if (found.password !== passwordInput){
+  //           console.log('Incorrect password result');
+  //           return res.send("Incorrect Password")
+  //       }
+  //       else {
+  //           return res.json({
+  //               success: true,
+  //               message: 'Authenticated successfully',
+  //               isAdmin: found.isAdmin
+  //              });
+  //       }
+  //   }
+  //   )})
+    
 
 // POST Endpoint for /api/register
 app.post('/api/register', (req, res) => {
