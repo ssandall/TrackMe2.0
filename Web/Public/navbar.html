@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/"> TrackMe </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+   data-target="#expanded-nav">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="expanded-nav">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/">Devices</a>
+            <a class="nav-item nav-link" href="/device-history">Device History</a>
+            <a class="nav-item nav-link" href="/register-device">Register Device</a>
+            <a class="nav-item nav-link" href="/send-command">Send Command</a>
+            <a class="nav-item nav-link" href="/about-me">About Me</a>
+            <a class="nav-item nav-link" href="/registration">Registration</a>
+            <div id="auth-nav"></div>
+        </div>
+    </div>
+</nav>
+<script>
+        const isAuthenticated = localStorage.getItem('isAuthenticated');
+        const logoutElement = '<button class="btn btn-danger navbar-btn" id="logout-button">Logout</button>';
+        const loginElement = '<button class="btn btn-primary navbar-btn" id="logout-button">Login</button>';
+        if (isAuthenticated) {
+        $('#auth-nav').append(logoutElement);
+        } else {
+        $('#auth-nav').append(loginElement);
+        }
+
+        $('#logout-button').on('click',function(){
+            console.log('Button Clicked')
+            localStorage.removeItem('isAuthenticated');
+            localStorage.removeItem('user');
+            location.href = '/login';
+        });
+</script>

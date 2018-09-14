@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+        <meta charset="utf-8" />
+        <meta name="description" content="A frontend dashboard for the
+        TrackMe application" />
+        <meta name="author" content="Suriya Sandall" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css" />
+        <title>TrackMe</title>
+    </head>
+    <body>
+        <div id="navbar"></div>
+        <div class="container">
+            <h1>Devices</h1>
+            <table id="devices" class="table table-bordered">
+                    <thead>
+                    <tr>
+                    <th>User</th>
+                    <th>Device</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+            </table>
+        </div>
+        <div id="footer"></div> 
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="app.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    </body>
+    <!-- Modal -->
+<div class="modal fade" id="historyModal">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title">Device History</h5>
+    </div>
+    <div class="modal-body">
+    <table class="table">
+    <thead>
+    <tr>
+    <th>Time</th>
+    <th>Temperature</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
+    </tr>
+    </thead>
+    <tbody id="historyContent"></tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+   </div>
+    <footer> 
+    </footer>
+</html>
