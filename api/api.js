@@ -3,13 +3,19 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 5000;
+
+mongoose.connect(process.env.MONGO_URL);
+
 const Device = require('./models/devices'); 
 const User = require('./models/user');
-//Needed to add new url parser as current edition mongoose url parser is deprecated
-mongoose.connect(process.env.MONGO_URL);
 
 app.use(bodyParser.json());
 app.use(express.json());
+
+//SOURCE OF THE ERROR WITH THE POST REQUEST
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -25,19 +31,20 @@ app.post('/api/send-command',(req, res) => {
 
 //POST Endpoint for api/authenticate
 app.post('/api/authenticate', (req, res) => {
-  const {user, passwordInput} = req.body;
-  User.findOne({name: user}, function(err, found) {
+  const { user, passwordInput } = req.body;
+  console.log(req.body);
+  User.findOne({name: user},(err, found) =>{
       if (err){
           console.log('Not Sending err')
           return res.send(err);
       }
-      if (found.password !== passwordInput){
-        return res.send("Incorrect Password")
+      else if (!found){
+        console.log('Req body stuff:')
+        console.log(req.body)
+        return res.send("User doesnt exist")
       }
-      if (!found){
-          console.log('Req body stuff:')
-          console.log(req.body)
-          return res.send("User doesnt exist")
+      else if (found.password !== passwordInput){
+        return res.send("Incorrect Password")
       }
       else {
           return res.json({
@@ -48,37 +55,6 @@ app.post('/api/authenticate', (req, res) => {
       }
   }
   )})
-
-  // app.post('/api/authenticate', (req, res) => {
-  //   const { user, passwordInput } = req.body;
-  //   console.log('REQ.BODY:');
-  //   console.log(req.body);
-  //   console.log('deets:');
-  //   console.log(user);
-  //   console.log(passwordInput);
-  //   User.findOne({name: user}, function(err, found) {
-  //       if (err){
-  //           console.log('Err result');
-  //           return res.send(err);
-  //       }
-  //       if (!found){
-  //           console.log('!Found result');
-  //           return res.send("User doesnt exist")
-  //       }
-  //       if (found.password !== passwordInput){
-  //           console.log('Incorrect password result');
-  //           return res.send("Incorrect Password")
-  //       }
-  //       else {
-  //           return res.json({
-  //               success: true,
-  //               message: 'Authenticated successfully',
-  //               isAdmin: found.isAdmin
-  //              });
-  //       }
-  //   }
-  //   )})
-    
 
 // POST Endpoint for /api/register
 app.post('/api/register', (req, res) => {
@@ -165,7 +141,7 @@ app.get('/api/users/:user/devices', (req, res) => {
   });
 });
 
-//POST Endpoint for api/devices
+//POST Endpoint for api/devices registering new devices.
  app.post('/api/devices', (req, res) => {
   const { name, user, sensorData } = req.body;
   const newDevice = new Device({
