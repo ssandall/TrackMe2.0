@@ -7,6 +7,7 @@ const Device = require('./models/devices');
 const User = require('./models/user');
 //Needed to add new url parser as current edition mongoose url parser is deprecated
 mongoose.connect(process.env.MONGO_URL);
+//Is this effecting grind
 
 app.use(bodyParser.json());
 app.use(express.json());
