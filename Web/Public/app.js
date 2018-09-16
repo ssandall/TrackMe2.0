@@ -69,6 +69,7 @@ $('#add-device').on('click', () => {
 });
 
 //LOGIN CLICK HANDLER. Error somewhere here but cannot understand why. 
+//TRIED COMMA CHECKING
 
 $('#login').on('click', () => {
     const user = $('#user').val();
