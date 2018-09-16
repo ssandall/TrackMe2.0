@@ -30,9 +30,6 @@ app.post('/api/send-command',(req, res) => {
 });
 
 //POST Endpoint for api/authenticate
-//ERR1:Ordering of if statements was wrong introducing some errors
-//TRIED COMMA CHECKING, no result
-//SOLUTION: above with app.use.
 app.post('/api/authenticate', (req, res) => {
   const { user, passwordInput } = req.body;
   console.log(req.body);
