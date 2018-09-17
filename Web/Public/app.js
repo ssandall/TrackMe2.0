@@ -1,53 +1,50 @@
 const API_URL = 'http://127.0.0.1:5000/api';
 
-// $.get(`${API_URL}/devices`)
-//     .then(response => {
-//         response.forEach(device => {
-//             $('#devices tbody').append(`
-//             <tr>
-//             <td>${device.user}</td>
-//             <td>${device.name}</td>
-//             </tr>`
-//             );
-//         });
-//     })
-//     .catch(error => {
-//     console.error(`Error: ${error}`);
-// });
+//Device Display according to logged in user
+const currentUser = localStorage.getItem('user');
+if (currentUser) {
+    $.get(`${API_URL}/users/${currentUser}/devices`)
+	.then(response => {
+		response.forEach((device) => {
+			$('#devices tbody').append(`
+            <tr data-device-id=${device._id}>
+            <td>${device.user}</td>
+            <td>${device.name}</td>
+            </tr>`
+			);
+        });
+		$('#devices tbody tr').on('click', (e) => {
+            const deviceId = e.currentTarget.getAttribute('data-device-id');
+            console.log(deviceId);
+			$.get(`${API_URL}/devices/${deviceId}/device_history`)
+			.then(response => {
+				response.map(sensorData => {
+					$('#historyContent').append(`
+                        <tr>
+                            <td>${sensorData.ts}</td>
+                            <td>${sensorData.temp}</td>
+                            <td>${sensorData.loc.lat}</td>
+                            <td>${sensorData.loc.lon}</td>
+                        </tr>
+                    `);
+                });
+				$('#historyModal').modal('show');
+            });
+        });
+    })
+    .catch(error => {
+        console.error(`Error: ${error}`);
+    });
+}   
+ 
+else {
+    const path = window.location.pathname;
+    if (path !== '/login') {
+        location.href = '/login';
+    }
+}
 
-// const currentUser = localStorage.getItem('user');
-
-// if (currentUser) {
-//     $.get(`${API_URL}/users/${currentUser}/devices`)
-//     .then(response => {
-//         response.forEach((device) => {
-//             $('#devices tbody').append(`
-//                 <tr data-device-id=${device._id}>
-//                 <td>${device.user}</td>
-//                 <td>${device.name}</td>
-//                 </tr>`
-//             );
-//         });
-//     })
-//     .catch(error => {
-//         console.error(`Error: ${error}`);
-//     });
-// } 
-// else {
-//     const path = window.location.pathname;
-//     if (path !== '/login') {
-//         location.href = '/login';
-//     }
-// }
-
-$('#devices tbody tr').on('click', (e) => {
- const deviceId = e.currentTarget.getAttribute('data-device-id');
- $.get(`${API_URL}/devices/${deviceId}/device-history`)
- .then(response => {
- console.log(response);
- });
-});
-
+//Register/Add Device
 $('#add-device').on('click', () => {
     const name = $('#name').val();
     const user = $('#user').val();
@@ -58,9 +55,11 @@ $('#add-device').on('click', () => {
             sensorData
         };
 
-        $.post('http://localhost:3001/devices', body)
+        $.post(`${API_URL}/devices`, body)
         .then(response => {
-        location.href = '/';
+            if(response.success){
+                location.href = '/'; 
+            }
         })
 
         .catch(error => {
@@ -68,14 +67,16 @@ $('#add-device').on('click', () => {
         }); 
 });
 
-//LOGIN CLICK HANDLER. Error somewhere here but cannot understand why. 
-
+//Loging Click Handler
 $('#login').on('click', () => {
     const user = $('#user').val();
     const passwordInput = $('#password').val();
+    console.log(user);
+    console.log(passwordInput);
     $.post(`${API_URL}/authenticate`, { user, passwordInput })
     .then((response) =>{
         if (response.success) {
+        console.log(response);
         localStorage.setItem('user', user);
         localStorage.setItem('isAdmin', response.isAdmin);
         localStorage.setItem('isAuthenticated',true);
@@ -86,9 +87,9 @@ $('#login').on('click', () => {
         }
     });
    });
-
 //Logout functionality moved to navbar.html
 
+//Account registration click handler
 $('#register-account').on('click', function() { 
     const name = $('#username').val();
     const password = $('#password').val();
