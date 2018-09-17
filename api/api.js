@@ -22,7 +22,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-RequestedWith,Content-Type, Accept");
   next();
- });
+});
 
 //POST Endpoint for api/send-command
 app.post('/api/send-command',(req, res) => {
@@ -35,6 +35,7 @@ app.post('/api/send-command',(req, res) => {
 * @api {post} /api/authenticate User Authentication
 * @apiGroup User
 * @apiSuccessExample {json} Success-Response:
+*
 *   {
 *    success: true,
 *    message: 'Authenticated successfully'
@@ -42,13 +43,14 @@ app.post('/api/send-command',(req, res) => {
 * @apiErrorExample {json} Error-Response:
 *   {
 *     success: false,
-      message: User doesn't exist
+*      message: User doesn't exist
 *   }
 * @apiErrorExample {json} Error-Response:
 *   {
 *     success: false,
-      message: Incorrect Password
+*     message: Incorrect Password
 *   }
+*
 */
 app.post('/api/authenticate', (req, res) => {
   const { user, passwordInput } = req.body;
@@ -83,24 +85,28 @@ app.post('/api/authenticate', (req, res) => {
   )})
 
 // POST Endpoint for /api/register
+
 /**
 * @api {post} /api/register Registering a user
 * @apiGroup User
 * @apiSuccessExample {json} Success-Response:
+* [
 *   {
 *    success: true,
 *    message: 'Created new user'
 *   }
+* ]
 * @apiErrorExample {json} Error-Response:
 *   {
 *     success: false,
-      message: err
+*     message: err
 *   }
 * @apiErrorExample {json} Error-Response:
 *   {
 *     success: false,
-      message: "user already exists"
+*      message: "user already exists"
 *   }
+*
 */
 app.post('/api/register', (req, res) => {
   const {name, password, isAdmin} = req.body;
@@ -154,8 +160,10 @@ app.get('/api/test', (req, res) => {
 });
 
 //GET Endpoint for /api/devices
+
+
 /**
-* @api {get} /api/devices AllDevices An array of all devices
+* @api {get} /api/devices All Devices in database
 * @apiGroup Device
 * @apiSuccessExample {json} Success-Response:
 * [
@@ -196,11 +204,12 @@ app.get('/api/devices', (req, res) => {
   });
 });
 
-//GET Endpoint for /api/deices Device History
+//GET Endpoint for /api/devices Device History
 /**
-* @api {get} /api/devices/:deviceId/device_history Retrieves all device history for devices associated with user
+* @api {get} /api/devices/:deviceId/device_history Device History data for associated user
 * @apiGroup Device
 * @apiSuccessExample {json} Success-Response:
+[
 * {
     "ts": "1529542743",
     "temp": 14,
@@ -264,7 +273,7 @@ app.get('/api/users/:user/devices', (req, res) => {
 
 //POST Endpoint for api/devices registering new devices.
 /**
-* @api {post} /api/devices Creating new devices and adding to mongoDB
+* @api {post} /api/devices Creating new devices and add to mongoDB
 * @apiGroup Device
 * @apiSuccessExample {json} Success-Response:
 *   {
