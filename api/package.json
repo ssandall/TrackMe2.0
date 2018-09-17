@@ -5,7 +5,9 @@
   "main": "api.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -r dotenv/config api.js"
+    "start": "nodemon -r dotenv/config api.js",
+    "deploy": "now remove API -y && now -p && now alias",
+    "doc": "apidoc -o public/generated-docs/ -e node_modules/"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +17,8 @@
     "mongoose": "^5.2.14"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "apidoc": "^0.17.6",
+    "nodemon": "^1.18.4",
+    "now": "^11.4.4"
   }
 }
