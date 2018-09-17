@@ -1,4 +1,4 @@
-const API_URL = 'http://127.0.0.1:5000/api';
+const API_URL = 'https://217319622-sit-209.now.sh/api';
 
 //Device Display according to logged in user
 const currentUser = localStorage.getItem('user');
