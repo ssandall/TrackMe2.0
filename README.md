@@ -1,7 +1,5 @@
 # TrackMe
 
-Deploy test oush
-
 TrackMe is a web app that allows for the control and utilisation of IOT devices without needing physical access to said devices. Commands can be sent and data received allowing for easy utilisation of IOT sensors and devices. TrackMe is a Deakin University Project for SIT209.
 
 ## Getting Started
