@@ -1,4 +1,5 @@
 const API_URL = 'https://217319622-sit-209.now.sh/api';
+const MQTT_URL = 'https://217319622mqttapi.now.sh';
 
 //Device Display according to logged in user
 const currentUser = localStorage.getItem('user');
@@ -120,7 +121,14 @@ $('#register-account').on('click', function() {
 
 $('#send-command').on('click', function() {
     const command = $('#command').val();
+    const deviceId = $('#deviceId').val();
     console.log(`command is: ${command}`);
+    console.log(`deviceId is: ${deviceId}`);
+
+    $.post(`${MQTT_URL}/send-command`, {command , deviceId })
+    .then((response) =>{
+        console.log(response);
+    })
 });
 
 $('#navbar').load('navbar.html',function(){
