@@ -25,10 +25,11 @@ app.use(function(req, res, next) {
 });
 
 //POST Endpoint for api/send-command
-app.post('/api/send-command',(req, res) => {
-  const {command} = req.body
-  console.log('Something meaningful')
-});
+//Relocated to MQTT
+// app.post('/api/send-command',(req, res) => {
+//   const {command} = req.body
+//   console.log('Something meaningful')
+// });
 
 //POST Endpoint for api/authenticate
 /**
