@@ -33,6 +33,8 @@ client.on('message', (topic, message) => {
     if (topic == '/sensorData') {
 
         const data = JSON.parse(message);
+        console.log('Message Received:')
+        console.log(data);
 
         Device.findOne({"name": data.deviceId }, (err, device) => {
             if (err) {
